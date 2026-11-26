@@ -1,0 +1,166 @@
+{
+  "dataset_label": "SYNTHETIC - Benchmark Calibrated (not real project costs)",
+  "model": "Ridge(alpha=1.0) on log(cost per sqm); total = rate x floor_area_sqm",
+  "sklearn_version": "1.9.1",
+  "features": [
+    "floor_area_sqm",
+    "number_of_storeys",
+    "project_type",
+    "structure_type",
+    "finish_tier",
+    "project_scope",
+    "province"
+  ],
+  "categories": {
+    "project_type": [
+      "Duplex",
+      "Single-Detached House",
+      "Townhouse"
+    ],
+    "structure_type": [
+      "Load-Bearing Masonry",
+      "Reinforced Concrete Frame with CHB Infill",
+      "Reinforced Concrete Frame with Lightweight Partitions",
+      "Steel Frame",
+      "Timber or Engineered Wood"
+    ],
+    "finish_tier": [
+      "High-End",
+      "Low-Cost",
+      "Mid-Range"
+    ],
+    "project_scope": [
+      "House Extension or Additional Floor",
+      "Major Renovation or Fit-Out",
+      "New Complete Construction",
+      "Shell and Core",
+      "Turnkey Construction with Basic Site Works"
+    ],
+    "province": [
+      "Albay",
+      "Batangas",
+      "Benguet",
+      "Bohol",
+      "Bulacan",
+      "Cavite",
+      "Cebu",
+      "Davao del Norte",
+      "Davao del Sur",
+      "Iloilo",
+      "La Union",
+      "Laguna",
+      "Metro Manila",
+      "Misamis Oriental",
+      "Negros Occidental",
+      "Nueva Ecija",
+      "Pampanga",
+      "Pangasinan",
+      "Rizal"
+    ]
+  },
+  "valid_storeys_by_type": {
+    "Duplex": [
+      1,
+      2
+    ],
+    "Single-Detached House": [
+      1,
+      2,
+      3
+    ],
+    "Townhouse": [
+      2,
+      3
+    ]
+  },
+  "valid_structures_by_type": {
+    "Duplex": [
+      "Load-Bearing Masonry",
+      "Reinforced Concrete Frame with CHB Infill",
+      "Reinforced Concrete Frame with Lightweight Partitions"
+    ],
+    "Single-Detached House": [
+      "Load-Bearing Masonry",
+      "Reinforced Concrete Frame with CHB Infill",
+      "Reinforced Concrete Frame with Lightweight Partitions",
+      "Steel Frame",
+      "Timber or Engineered Wood"
+    ],
+    "Townhouse": [
+      "Load-Bearing Masonry",
+      "Reinforced Concrete Frame with CHB Infill",
+      "Reinforced Concrete Frame with Lightweight Partitions",
+      "Steel Frame"
+    ]
+  },
+  "valid_storeys_by_structure": {
+    "Load-Bearing Masonry": [
+      1,
+      2
+    ],
+    "Reinforced Concrete Frame with CHB Infill": [
+      1,
+      2,
+      3
+    ],
+    "Reinforced Concrete Frame with Lightweight Partitions": [
+      1,
+      2,
+      3
+    ],
+    "Steel Frame": [
+      1,
+      2,
+      3
+    ],
+    "Timber or Engineered Wood": [
+      1,
+      2
+    ]
+  },
+  "area_range_by_type": {
+    "Duplex": {
+      "min": 47.4,
+      "max": 189.8
+    },
+    "Single-Detached House": {
+      "min": 45.1,
+      "max": 385.6
+    },
+    "Townhouse": {
+      "min": 64.1,
+      "max": 193.0
+    }
+  },
+  "band_log_q10_q90": [
+    -0.08026048221064155,
+    0.08576359642530718
+  ],
+  "test_metrics": {
+    "MAE_log": 0.051735266640370335,
+    "RMSE_log": 0.06584595644519213,
+    "R2_log": 0.9739338551708328,
+    "MAPE_pct": 5.22763871939624,
+    "MAE_PHP_sqm": 1596.118410857001,
+    "MAE_PHP_total": 215833.17891580705,
+    "median_total_PHP": 3354305.305
+  },
+  "duration_model": {
+    "model": "GradientBoostingRegressor(random_state=42) on log(weeks); no province",
+    "features": [
+      "floor_area_sqm",
+      "number_of_storeys",
+      "project_type",
+      "structure_type",
+      "finish_tier",
+      "project_scope"
+    ],
+    "band_log_q10_q90": [
+      -0.07283982966369598,
+      0.06974545119796832
+    ],
+    "test_mape_pct": 4.211245424217325,
+    "test_mae_weeks": 1.6534872872496387,
+    "note": "Synthetic duration data. Display predicted weeks rounded to whole weeks."
+  }
+}

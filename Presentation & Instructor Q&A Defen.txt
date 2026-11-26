@@ -1,0 +1,30 @@
+Presentation & Instructor Q&A Defense Guide
+Use this concise reference sheet to defend every decision across your grading rubric:
+
+1. Problem Significance & Business Case (25% + 15%)
+
+Early-stage residential budgeting and timeline planning in the Philippines is slow and opaque for homeowners and small contractors.
+BuildWise turns 7 basic project parameters into an instant cost range, trade-package breakdown, critical-path schedule, and plain-language walkthrough.
+Honest positioning: Presented as an early-stage educational/benchmark planning prototype, never a replacement for a licensed Quantity Surveyor or Structural Engineer.
+
+2. Data & Methodology (15%)
+
+Data Hygiene: Rejected two raw CSVs due to exact target-leakage formulas, and kept Lamudi listings (PH_houses_v2.csv) out of training because asking sale prices include land and developer margin. Cleaned to 806 residential rows (Single-Detached, Townhouse, Duplex).   
+Leakage Audit & Split: Strictly 7 input features; totals and the 8 cost components are outputs only. 80/20 stratified split on finish_tier × project_scope (644 train / 162 test) with identical 5-fold stratified CV across all comparisons.   
+Why Different Models Won: Ridge(alpha=1.0) on log(cost/sqm) (5.23% test MAPE, R²=0.974 on synthetic test set) beat tree models because cost follows a clean multiplicative rule. GradientBoostingRegressor on log(weeks) without province (4.21% test MAPE, 1.65 weeks MAE on synthetic test set) beat Ridge because duration has non-linear interactions across area, scope, and storeys.   
+
+3. Technical Complexity & Architecture (25%)
+
+Single Source of Truth: buildwise_core.py encapsulates validation, both ML pipelines, deterministic tier×scope shares, and CPM forward/backward pass scheduling. Neither Streamlit nor Claude computes numbers.   
+AI Guardrails: Claude Haiku (claude-haiku-5-5) receives only the validated dashboard_dict at low temperature (0.1), backed by a regex numeric post-check and a deterministic fallback.   
+
+4. Tough Instructor Questions & Ready Answers
+
+Q: "97.4% R² and 5.2% error—can I use this to price my house tomorrow?"
+	- A: No—those metrics measure how accurately our models recovered the rules of a synthetic benchmark-calibrated dataset on a held-out test set. Real construction requires site surveys, bills of quantities, and live supplier quotes.   
+
+Q: "Why does Shell and Core show ~16.6% MEP cost?"
+	- A: The breakdown uses empirical average shares from the synthetic dataset rather than an engineering BOQ, which is why we explicitly label it as synthetic tier/scope averages.   
+
+Q: "What happens if Claude hallucinates a number or the API goes down?"
+	- A: Every standalone number in Claude's output is checked against the input JSON; if any unverified number appears—or if the API times out—the app automatically switches to our deterministic Python fallback summary.   
