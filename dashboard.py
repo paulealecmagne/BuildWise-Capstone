@@ -1,4 +1,4 @@
-### Phase 4 - Dedicated Dashboard Renderer (dashboard.py)
+import html
 import pandas as pd
 import plotly.express as px
 import streamlit as st
@@ -34,8 +34,17 @@ def _breakdown_bar_chart(result):
         y="Component",
         orientation="h",
         title="Cost Breakdown by Component (PHP — Tier & Scope Average Shares)",
+        color="PHP",
+        color_continuous_scale=["#93C5FD", "#1E3A5F"],
     )
-    fig.update_layout(height=360, margin=dict(l=10, r=10, t=40, b=10), showlegend=False)
+    fig.update_layout(
+        height=360,
+        margin=dict(l=10, r=10, t=45, b=10),
+        showlegend=False,
+        coloraxis_showscale=False,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+    )
     return fig
 
 
@@ -46,10 +55,11 @@ def render_dashboard(result, explanation_text):
     dur = result["duration"]
     display_meta = result.get("display", {})
 
+    st.divider()
     st.subheader("Project Summary")
     s1, s2, s3, s4 = st.columns(4)
     s1.metric("Project Type", inp["project_type"])
-    s2.metric("Floor Area", f"{inp['floor_area_sqm']} sqm")
+    s2.metric("Floor Area", f"{inp['floor_area_sqm']:,.1f} sqm")
     s3.metric("Storeys & Province", f"{inp['number_of_storeys']}F • {inp['province']}")
     s4.metric("Tier & Scope", f"{inp['finish_tier']} • {inp['project_scope']}")
     st.caption(f"Structure: {inp['structure_type']} | Dataset: {result['data_label']}")
@@ -93,7 +103,8 @@ def render_dashboard(result, explanation_text):
                 )
 
     st.subheader("Plain-Language Explanation")
-    st.write(explanation_text)
+    safe_text = html.escape(explanation_text).replace("\n", "<br>")
+    st.markdown(f'<div class="bw-explainer-box">{safe_text}</div>', unsafe_allow_html=True)
     st.caption(
         "Reminder: Underlying dataset is synthetic (benchmark calibrated); cost breakdown uses "
         "historical tier/scope average shares; schedule is an illustrative template scaled to predicted weeks; "
