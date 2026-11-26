@@ -2,6 +2,7 @@
 import json
 import os
 import re
+import httpx
 from anthropic import Anthropic
 
 # Verify exact current Haiku model ID in Anthropic's docs before final submission
@@ -85,7 +86,12 @@ def generate_explanation(data, api_key=None, model=DEFAULT_MODEL):
         return deterministic_fallback(data), True, "Missing ANTHROPIC_API_KEY"
 
     try:
-        client = Anthropic(api_key=key, timeout=15.0, max_retries=1)
+        try:
+            client = Anthropic(api_key=key, timeout=15.0, max_retries=1)
+        except TypeError:
+            http_client = httpx.Client(timeout=15.0)
+            client = Anthropic(api_key=key, http_client=http_client, max_retries=1)
+
         user_payload = json.dumps(data, indent=2)
         msg = client.messages.create(
             model=model,

@@ -6,3 +6,4 @@ plotly
 anthropic
 joblib
 openpyxl
+httpx<0.28
