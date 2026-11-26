@@ -1,4 +1,3 @@
-### 2. Stage 2 - Dependent Input Form Helper (ui_form.py)
 import streamlit as st
 
 
@@ -13,21 +12,28 @@ def render_project_form(bw):
         with col1:
             project_type = st.selectbox("Project Type", options=cats["project_type"])
 
-            # Filter structures and storeys to options seen for the chosen project_type
+            # Filter structures to options seen for the chosen project_type
             valid_structs = card["valid_structures_by_type"].get(project_type, cats["structure_type"])
             structure_type = st.selectbox("Structure Type", options=valid_structs)
 
-            valid_storeys = card["valid_storeys_by_type"].get(project_type, [1, 2, 3])
-            number_of_storeys = st.selectbox("Number of Storeys", options=valid_storeys)
+            storey_options = sorted(
+                set(card["valid_storeys_by_type"].get(project_type, list(range(1, 10)))) | set(range(1, 10))
+            )
+            storey_options = [s for s in storey_options if 1 <= s <= 9]
+            number_of_storeys = st.selectbox("Number of Storeys", options=storey_options)
 
-            area_rng = card["area_range_by_type"].get(project_type, {"min": 40.0, "max": 400.0})
+            area_rng = card["area_range_by_type"].get(project_type, {"min": 40.0, "max": 100000.0})
+            min_area = float(area_rng["min"])
+            max_area = max(float(area_rng["max"]), 100000.0)
+            default_area = min(max(120.0, min_area), max_area)
+
             floor_area_sqm = st.number_input(
                 "Floor Area (sqm)",
-                min_value=float(area_rng["min"]),
-                max_value=float(area_rng["max"]),
-                value=min(max(120.0, float(area_rng["min"])), float(area_rng["max"])),
-                step=1.0,
-                help=f"Seen in synthetic data for {project_type}: {area_rng['min']}-{area_rng['max']} sqm",
+                min_value=min_area,
+                max_value=max_area,
+                value=default_area,
+                step=10.0,
+                help=f"Allowed range for {project_type}: {min_area:g}–{max_area:g} sqm (up to 9 storeys)",
             )
 
         with col2:

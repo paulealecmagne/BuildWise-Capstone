@@ -39,8 +39,10 @@ CAT_COLS = ["project_type", "structure_type", "finish_tier", "project_scope", "p
 
 # True  -> combinations never seen in the data are BLOCKED (errors)
 # False -> they only produce a warning
-STRICT_COMBINATIONS = True
+STRICT_COMBINATIONS = False
 MIN_PROVINCE_ROWS = 30
+MAX_STOREYS = 9
+MAX_FLOOR_AREA_SQM = 100000.0
 
 # Which template activities (WBS numbers) apply to each scope. ASSUMPTION agreed in the project.
 SCOPE_ACTIVITIES = {
@@ -101,6 +103,11 @@ class BuildWise:
             return errors, warns
 
         ptype, struct = inputs["project_type"], inputs["structure_type"]
+
+        if storeys < 1 or storeys > MAX_STOREYS:
+            errors.append(f"number_of_storeys must be between 1 and {MAX_STOREYS}; got {storeys}")
+        if area > MAX_FLOOR_AREA_SQM + 0.05:
+            errors.append(f"floor_area_sqm must be at most {MAX_FLOOR_AREA_SQM:g} sqm; got {area}")
 
         rng = card["area_range_by_type"][ptype]
         if not (rng["min"] - 0.05 <= area <= rng["max"] + 0.05):

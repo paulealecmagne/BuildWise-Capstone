@@ -59,19 +59,9 @@
     ]
   },
   "valid_storeys_by_type": {
-    "Duplex": [
-      1,
-      2
-    ],
-    "Single-Detached House": [
-      1,
-      2,
-      3
-    ],
-    "Townhouse": [
-      2,
-      3
-    ]
+    "Duplex": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Single-Detached House": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Townhouse": [1, 2, 3, 4, 5, 6, 7, 8, 9]
   },
   "valid_structures_by_type": {
     "Duplex": [
@@ -94,42 +84,24 @@
     ]
   },
   "valid_storeys_by_structure": {
-    "Load-Bearing Masonry": [
-      1,
-      2
-    ],
-    "Reinforced Concrete Frame with CHB Infill": [
-      1,
-      2,
-      3
-    ],
-    "Reinforced Concrete Frame with Lightweight Partitions": [
-      1,
-      2,
-      3
-    ],
-    "Steel Frame": [
-      1,
-      2,
-      3
-    ],
-    "Timber or Engineered Wood": [
-      1,
-      2
-    ]
+    "Load-Bearing Masonry": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Reinforced Concrete Frame with CHB Infill": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Reinforced Concrete Frame with Lightweight Partitions": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Steel Frame": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "Timber or Engineered Wood": [1, 2, 3, 4, 5, 6, 7, 8, 9]
   },
   "area_range_by_type": {
     "Duplex": {
       "min": 47.4,
-      "max": 189.8
+      "max": 100000.0
     },
     "Single-Detached House": {
       "min": 45.1,
-      "max": 385.6
+      "max": 100000.0
     },
     "Townhouse": {
       "min": 64.1,
-      "max": 193.0
+      "max": 100000.0
     }
   },
   "band_log_q10_q90": [
