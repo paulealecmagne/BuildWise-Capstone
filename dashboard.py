@@ -77,7 +77,7 @@ def render_dashboard(result, explanation_text):
         f"(typical error on synthetic test set: {dur['typical_error_pct_on_synthetic_test']}%)"
     )
 
-    st.subheader("Cost Breakdown (Typical Share by Finish Tier & Scope — No ML)")
+    st.subheader("Cost Breakdown (Typical Share by Finish Tier & Scope)")
     tab_table, tab_chart = st.tabs(["Breakdown Table", "Component Chart"])
     with tab_table:
         st.dataframe(_breakdown_dataframe(result), width="stretch", hide_index=True)
@@ -86,7 +86,7 @@ def render_dashboard(result, explanation_text):
 
     st.subheader("Illustrative Schedule Scaled to Predicted Duration")
     st.plotly_chart(
-        gantt_figure(result["schedule"], "BuildWise Schedule (illustrative schedule)"),
+        gantt_figure(result["schedule"], "BuildWise Schedule"),
         width="stretch",
     )
 
@@ -101,6 +101,12 @@ def render_dashboard(result, explanation_text):
                     f"• **{act['activity']}** (WBS {act['wbs']}): "
                     f"{act['float_weeks']} weeks float (Weeks {act['start_week']}–{act['end_week']})"
                 )
+
+    top_comp = max(result["breakdown_php"].items(), key=lambda kv: kv[1])[0].replace("_", " ").title()
+    st.info(
+        f"**Quick Takeaway:** Estimated at **PHP {cost['total_php']:,}** over **{dur['weeks']} weeks**, "
+        f"with **{top_comp}** as the largest cost component and **{cp_count}** critical-path activities."
+    )
 
     st.subheader("Plain-Language Explanation")
     safe_text = html.escape(explanation_text).replace("\n", "<br>")
